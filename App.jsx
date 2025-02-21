@@ -11,9 +11,13 @@ import {
 import GestureRecognizer from 'react-native-swipe-gestures';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+// import RBSheet from 'react-native-raw-bottom-sheet';
+// import Share from 'react-native-share';
+import ShareNews from './src/components/ShareNews';
+import ReportNews from './src/components/ReportNews';
+import CommentScreen from './src/components/CommentScreen';
 
 const {height, width} = Dimensions.get('window');
 
@@ -73,61 +77,63 @@ const App = () => {
         onSwipeUp={onSwipeUp}
         onSwipeDown={onSwipeDown}
         style={styles.gestureContainer}>
-        <TouchableWithoutFeedback onPress={handleScreenTap}>
-          <View style={styles.newsContainer}>
-            <Image
-              source={{uri: newsData[currentIndex].image}}
-              style={styles.image}
-            />
-            <View style={styles.textContainer}>
-              <View>
+        <View style={styles.newsContainer}>
+          <Image
+            source={{uri: newsData[currentIndex].image}}
+            style={styles.image}
+          />
+          <View style={styles.textContainer}>
+            <TouchableWithoutFeedback onPress={handleScreenTap}>
+              <View style={{flex: 1}}>
                 <Text style={styles.title}>{newsData[currentIndex].title}</Text>
                 <Text style={styles.description}>
                   {newsData[currentIndex].description}
                 </Text>
               </View>
-
-              <View>
-                <View style={styles.dateContainer}>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <MaterialCommunityIcons
-                      name="timer-outline"
-                      size={18}
-                      color="gray"
-                    />
-                    <Text style={styles.timeText}>2h ago</Text>
-                    <Text style={styles.pagesText}>
-                      {' '}
-                      / {currentIndex + 1} of {newsData.length} pages
-                    </Text>
-                  </View>
+            </TouchableWithoutFeedback>
+            <View>
+              <View style={styles.dateContainer}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <MaterialCommunityIcons
+                    name="timer-outline"
+                    size={18}
+                    color="gray"
+                  />
+                  <Text style={styles.timeText}>2h ago</Text>
+                  <Text style={styles.pagesText}>
+                    {' '}
+                    / {currentIndex + 1} of {newsData.length} pages
+                  </Text>
                 </View>
+              </View>
 
-                <View style={styles.iconsContainer}>
-                  <View style={styles.leftIcons}>
+              <View style={styles.iconsContainer}>
+                <View style={styles.leftIcons}>
+                  <TouchableOpacity style={styles.sliderItem}>
                     <Text style={styles.centerIcon}>
                       <AntDesign name="like2" size={20} color="gray" />{' '}
                       <Text style={{color: 'gray'}}>21</Text>
                     </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.sliderItem}>
                     <Text>
                       <AntDesign name="dislike2" size={20} color="gray" />{' '}
                       <Text style={{color: 'gray'}}>21</Text>
                     </Text>
-                    <Text>
-                      <FontAwesome name="commenting-o" size={20} color="gray" />{' '}
-                      <Text style={{color: 'gray'}}>21</Text>
-                    </Text>
-                  </View>
-                  <View style={styles.rightIcons}>
-                    <AntDesign name="download" size={20} color="gray" />
-                    <Entypo name="dots-three-vertical" size={20} color="gray" />
-                    <FontAwesome name="share" size={20} color="lightblue" />
-                  </View>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={styles.sliderItem}>
+                    <CommentScreen />
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.rightIcons}>
+                  <ReportNews />
+                  <ShareNews />
                 </View>
               </View>
             </View>
           </View>
-        </TouchableWithoutFeedback>
+        </View>
       </GestureRecognizer>
 
       {/* Footer */}
@@ -204,7 +210,7 @@ const styles = StyleSheet.create({
   leftIcons: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 9,
+    gap: 12,
   },
   rightIcons: {
     alignItems: 'center',
